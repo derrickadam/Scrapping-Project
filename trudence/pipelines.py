@@ -13,7 +13,7 @@ from pytz import timezone
 
 class TrudencePipeline(object):
     counts = {}
-
+    done = 0 
     def process_item(self, item, spider):
         domain = item["domain"]
         if domain not in self.counts:
@@ -25,6 +25,9 @@ class TrudencePipeline(object):
         return item
 
     def close_spider(self, spider):
+        if self.done ==1:
+            return
+        self.done = 1
         last_keyword = xlsxwriter.utility.xl_col_to_name(len(spider.keywords) + 3)
         tz = timezone('EST')
         sheet_cells = spider.wks.range(f'B2:{last_keyword}{len(spider.domains) + 2}')
