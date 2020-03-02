@@ -28,8 +28,8 @@ CONCURRENT_REQUESTS = 32
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 32
-CONCURRENT_REQUESTS_PER_IP = 32
+CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED = False
@@ -89,16 +89,17 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 CREDENTIALS = {
-    'type': 'service_account',
-    'project_id': 'trudence',
-    'private_key_id': '9f7ca0cf6a329e8cb3a31dc5157cb6eca366083a',
-    'private_key': '-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDUFvbDhlUWrDHB\nm9nvDVlZPw5IRihuLlp6Y/8nrzISM/LZkUh/hPuwmJl/yc0yV6c7Ux2xp/W62Li/\neLL+ZygfGJfRiUSgHCUP+XABH7y9HLqDCPMII1O7batcxBeNhZyWTA9KtEaDsIlg\nbxq8ScgP6GZbvYHCfWzMW+cxKBsr2hAtCTgWNPiWzGiVeA4iZ9W2nZMxKFG0bhNq\nm1rUmmoL5exNvJTf4//Ug2zn0y7r0UJUW+ybMi5ueJAI4lHSjRAvICIyoArZmml5\n2TmdqEArugXc6bKzrABSAXyfobt8NYAejq7d0qFNv5+38bqwSqV+j8KlyUMA5w/3\nLEQsLSdLAgMBAAECggEAItgO/HqCWjI6DnPbbyHDTx1D7G3SUJ++76KkFdH7qO/t\n8v6iaYjgjNfVSCBQXPf3mpCCLWDJx0O5voNG7PLnrYwtzRf/NUrKcABr/VNIf81L\neyGqQ+kB5aYT5C63K+IKosqmLIDHoPUM7NH0E4EPpEVrI6FTwy82A7EJn5LWO/LP\nrwHHRzmjMNpey8YJQJfN84JHUPdNWOOpJTZH+pWE4Koh+ptrOEUyOvOXiLLGk3oT\numRlJe+JFCcn3c236DKJESfgeGKuwD4+/pAKC6u7wwR0fsDktikURzRUhTKFFNfq\navLfLjub00ZNBPvmnDZ9OZc2YaZ5W8cgzKghJIZf8QKBgQD7/qRfXLecftwCn9yE\nIlUH34ZGS72v7gLkgBhwB7oMURi4UFUnhrfMPRokjwQ02fRuSF8XrEAEIVvbe0ZT\ngoZeKWmNPnZEVs2/h3NMrD9yR7vo6fvfXFGEiKBGmmQ/jL/Rvr+vWFx0dcMoSI49\nsSZFcoVYIpDB7Rnld//6ruAtcwKBgQDXdfMkKrb1v5i4LLONdOi7Er2MffmFNxIj\n1tyrG02DLE9EqcwBVvmwS39iEObFO5MXzFvyt6A7SPIY/EY9LeWFZsUF4pzTcnEA\nF9hYwHuf9eozOPDt39WuozRHvr4JRvTtDUw5oNVNkA9KWS7zwb/Kcb7bAHRHGse1\nHjb3qNKoyQKBgCymJcGvz+iuoZTldlEDNEW82THDYcy2Q1TxTWMsO07LX7Hoqe3i\n9NX/TY6EuJ4UsDaKJC8xmfYhYwE0inVpfx1YARfBpXreVn5FJazEKEm7ZBQUwUgG\nN3tgKeXYnUKVUbd8MMKEyXzpELcmg+1yYfGUJQREu5lgxWHfLT/hlF75AoGAEbeM\nN8QfaVPI7hQW66HaZU+kMIJHW1Hs9u97E8LZ+9hP6FiCAvYw7/M1VU4Ie91rOgC+\n6tV4oodcCPvtlqhIgFC0EMjSlnyJmDVdv+aMA9pH2NBs11KZkpOu/9tKax7fkwKN\n6wsznv4ik72Do92htLbnt8Bwz0v/cgA7CuBh+ikCgYBb8PAzC5RREqEJyRO6SIpz\nF9zcF7C10rMHHekGdHb3nUjztowl0T/0DVt6SwBOy3pAWXM4kmZ6FntZk3IJHXlc\nGqqCKSRXyLgwcH5cSFplPZ1GDNlCrehtwRltTOYM1ZN44TT844dZzEkxZn9Ek6+Z\nGpnAH/RmmKoerbp274bDqg==\n-----END PRIVATE KEY-----\n',
-    'client_email': 'robot-801@trudence.iam.gserviceaccount.com',
-    'client_id': '117093594887116412126',
-    'auth_uri': 'https://accounts.google.com/o/oauth2/auth',
-    'token_uri': 'https://oauth2.googleapis.com/token',
-    'auth_provider_x509_cert_url': 'https://www.googleapis.com/oauth2/v1/certs',
-    'client_x509_cert_url': 'https://www.googleapis.com/robot/v1/metadata/x509/robot-801%40trudence.iam.gserviceaccount.com'
+  "type": "service_account",
+  "project_id": "scraping-project-268618",
+  "private_key_id": "d72e89deaf8efbc806e371e994cfe0036573795b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC9EbykzBPEaazV\n92ka3CDCMTVnhzBI1kDG/gHEPDGq8mBV4z/t1l+7v1L0J5vKZzireneuV3iCk7aj\npLDOvdlJa1QIfOKPKhzSuiuLDPaBJP1j128SPqqGyuA3AKiMLMLuX4ldQLRDRQee\n3bIhV4zes4tgIk5tyjp13NDWapCndu4aanIGUVcQ3703cQPlsaKeYKvWYGYPRmFN\n/+TdFLNXm9Y968K3m98n/5cOMe3ZZlSkP9+QQrpWibym9s0seUruecgRbim2cnyW\nHZVP9TR3MlfOhJrSf2/bFrf61y+ndpGlla4QAYYef73LHUm7AFHICqnIKgzh1oFw\n7rnx8aLvAgMBAAECggEABRp6dhRQIEgd8zSXcLMqazN61o2OnxixbO2kTJC3Yn7i\nXM8ihZ/4u4+hhJehG+iHXhGTM3CG/zdPgcFLSHlVaSbtgMEmOGkRmBqQXFOAP+Io\nuM4y4FIytiq5vKJW6lm29Uo84fiCJSKy3vXq/f1n/wbnpzOl3E7OHypTtMXxm6ON\nS7hINVa175sIQwL4nAvoDUu10XXj0OSgMt/sWggVykneAPK8eaCn8Onwza/peyuF\nBU67DBDlKHXqpcrlEcYPZDohVugN9J3QBtxh/c0ORd0z5xPVTj37Cj3dmVfn9neN\no9ltSkRXCR6qLVaNRsnPnYobhdm8bFF1js/BVfUNCQKBgQDm3y8hdR+53R39Yoor\nq0PO5ouNEp/GvQQMUpoRVtp8uCctv/FyfBrzHQcxFPpAEDP/LoTRgb4FoY0patBh\nRKzngyLaf7My1r4b4m8/Aiza8/x+pXZ+Etclo+Ll2XfoASzuAiChWVtJW9Q+4QtR\nunhX5Syad7fOgCwZMv+5amgQwwKBgQDRpc18nYGZ+QHgh+FBbuK9+03LrH7hxtXI\nZExS4TCLFQNy+XT4VovWiupB2UbZelO8O3JbXRtSP+baL+pijAfXlWBAoU1vd/pT\nlIITa0wshJayMQ16XjkbuugDcqDvm/AwrUnChOvNHnZXsj/mJyhC6pPP73M3knOU\nDR6XgiCCZQKBgQDkmJo3G5yFUU6PhJFg+dxTMe19irJPevpWJTfN8Vy23zRT1VkB\nzaZ1kAl97NJ4ulJx2iLCux9mvfZiyxN3LCOzvCG3jXfm38AvJf6WudWmGq2ozLbN\n0GPdLi/M/I4AV6GgLNUYTbzYnydB91xY2TStewq2C9IgksKXVOrmMVjHNwKBgAgf\nP03DoGDBt+Pl/8EUNa6cjNAGN8gxdtjToe1YEhRhVQfgSDrSx4ohSaARdeA5EANr\n3itR+Rv/o8byMkdtG2SrwdXfKevWnxkb2Mo9zu6umFQA+H+0JMxBOnnfuAJwbSbF\nn+TsV2JT+su8+SLGg5XMFrvoj/MoNlgXBgdioDXNAoGBANm++G/anC26n0e3dLqi\n0TV0f/pc94QV0N8R7GIJYlS7QoeDUNvX7hI0RVx29XUPv8IE9MGA32AhmuNRHaCQ\n8EtiB/ytX2onLlBp7ZxLYIJoQbCjV5BHagw1B6+fvgoeAxREAvPJ5l94Gi9ueTah\nwGjQLNVOHhrDl6jZMcZSRvV/\n-----END PRIVATE KEY-----\n",
+  "client_email": "robot-985@scraping-project-268618.iam.gserviceaccount.com",
+  "client_id": "118321807277285175744",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/robot-985%40scraping-project-268618.iam.gserviceaccount.com"
+
 }
-FILE_NAME = "Websites scoring"
-SHEET_NAME = "New_Backend"
+FILE_NAME = "Scrapping Project"
+SHEET_NAME = "Sheet1"
