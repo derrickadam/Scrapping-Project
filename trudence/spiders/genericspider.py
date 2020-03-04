@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import urllib
 
 import gspread
 import scrapy
@@ -7,12 +8,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 from scrapy import Request
 
 from trudence.items import TrudenceItem
-from trudence.settings import CREDENTIALS
-from trudence.settings import FILE_NAME, SHEET_NAME
-import urllib
+from trudence.settings import SHEET_NAME, FILE_NAME, CREDENTIALS
 
 
-class GenericspiderSpider(scrapy.Spider):
+class GenericSpider(scrapy.Spider):
     name = 'genericspider'
     headers = {
         'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -20,14 +19,13 @@ class GenericspiderSpider(scrapy.Spider):
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36',
     }
     custom_settings = {
-        # 'LOG_LEVEL': "ERROR",
-        'HTTPCACHE_ENABLED': "True"
+        # 'HTTPCACHE_ENABLED': "True"
     }
     ignore_words = ["mailto", ".pdf", ".xlsx", ".csv", 'tel:', '.jpg', '.png']
 
     def start_requests(self):
         self.get_google_sheet_data()
-        for url in self.domains:
+        for url in self.domains[:10]:
             yield Request(url, self.parse_main_page, headers=self.headers, meta={"domain": url})
 
     def parse_main_page(self, response):
@@ -55,7 +53,7 @@ class GenericspiderSpider(scrapy.Spider):
             # Exception may happen when following a link .pdf or @email ...
             print(e)
 
-    def get_google_sheet_data(self):
+    def get_google_sheet_data(self, proxy=False):
         scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
                  "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
@@ -68,13 +66,14 @@ class GenericspiderSpider(scrapy.Spider):
         self.wks = gc.open(FILE_NAME).worksheet(SHEET_NAME)
         self.domains = self.wks.col_values(1)[1:]
         self.domains = [correct_domain(url) for url in self.domains]
-        self.keywords = self.wks.row_values(1)[3:]
+        self.keywords = self.wks.row_values(1)[4:]
 
     def check_if_ignore(self, url):
         for i in self.ignore_words:
             if i in url:
                 return True
         return False
+
 
 
 def correct_domain(url):
