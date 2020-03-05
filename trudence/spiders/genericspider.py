@@ -18,14 +18,11 @@ class GenericSpider(scrapy.Spider):
         'Connection': 'keep-alive',
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36',
     }
-    custom_settings = {
-        # 'HTTPCACHE_ENABLED': "True"
-    }
     ignore_words = ["mailto", ".pdf", ".xlsx", ".csv", 'tel:', '.jpg', '.png']
 
     def start_requests(self):
         self.get_google_sheet_data()
-        for url in self.domains[:10]:
+        for url in self.domains:
             yield Request(url, self.parse_main_page, headers=self.headers, meta={"domain": url})
 
     def parse_main_page(self, response):
@@ -73,7 +70,6 @@ class GenericSpider(scrapy.Spider):
             if i in url:
                 return True
         return False
-
 
 
 def correct_domain(url):
