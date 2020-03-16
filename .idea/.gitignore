@@ -5,7 +5,7 @@ _trial_temp*
 dropin.cache
 docs/build
 *egg-info
-.tox
+.toxdb
 venv
 build
 dist

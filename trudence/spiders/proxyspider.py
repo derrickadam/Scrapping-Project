@@ -1,34 +1,24 @@
 import json
-import urllib
-from random import random
 
 import requests
-from scrapy import Request
 from scrapy.http import TextResponse
 
 from trudence.spiders.genericspider import GenericSpider
 
 
-class GenericSpiderProxy(GenericSpider):
-    name = "genericspiderproxy"
-    custom_settings = {
-        # "LOG_LEVEL": "ERROR"
-    }
+class ProxySpider(GenericSpider):
+    name = "proxyspider"
 
-    def start_requests(self):
+    def __init__(self, is_master=True, lower_bound=0, **kwargs):
+        super().__init__(is_master=True, lower_bound=0, **kwargs)
         self.proxy_pool = get_proxies()
-        self.get_google_sheet_data()
-        self.domains_blocked = self.domains_to_retry()
-        for url in self.domains_blocked:
-            yield Request(url, self.parse_main_page, headers=self.headers, meta={"domain": url})
 
-    def domains_to_retry(self):
-        totals = self.wks.col_values(4)[1:]
+    def get_spider_domains(self):
+        totals = self.gs_handler.get_totals()
         res = []
-        for total, domain in zip(totals, self.domains):
+        for total, domain in zip(totals, self.all_domains):
             if total == '0':
                 res.append(domain)
-                print(domain,total)
         return res
 
 

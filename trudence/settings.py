@@ -90,8 +90,9 @@ ITEM_PIPELINES = {
 
 RETRY_ENABLED = True
 RETRY_HTTP_CODES = [500, 502, 503, 504, 507, 404, 408, 403]
-RETRY_TIMES = 10
-
+RETRY_TIMES = 20
+DOWNLOAD_TIMEOUT = 10
+DNS_TIMEOUT = 10
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 100,
     'trudence.middlewares.CustomProxyMiddleware': 350,
@@ -112,4 +113,7 @@ CREDENTIALS = {
 
 }
 FILE_NAME = "Scrapping Project"
-SHEET_NAME = "Sheet1"
+MAIN_SHEET = "Sheet1"
+CONF_SHEET = "configuration"
+API_KEY = "790540792a0642329ff57757cc489380"
+PROJECT_ID = '431290'
