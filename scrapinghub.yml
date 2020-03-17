@@ -1,3 +1,5 @@
-image: true
+stack: scrapy:1.8-py3
+
+image: false
 requirements:
   file: requirements.txt

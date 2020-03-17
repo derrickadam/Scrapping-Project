@@ -28,6 +28,7 @@ class GenericSpider(scrapy.Spider):
         super().__init__(**kwargs)
         self.gs_handler = GoogleSheetHandler(CREDENTIALS, FILE_NAME, MAIN_SHEET, CONF_SHEET)
         lower_bound = int(lower_bound)
+        self.lower_bound = lower_bound
         # Keywords + weights
         self.keywords, self.weights = self.gs_handler.get_keywords()
         self.gs_handler.get_totals()
@@ -91,7 +92,7 @@ class GenericSpider(scrapy.Spider):
 
     def close(spider, reason):
         # Start the master spider of proxy spiders
-        spider.spider_monitor.run_next_batch("proxyspider", 0, is_master=True)
+        spider.spider_monitor.run_next_batch("proxyspider", 0, is_master=True, lower_bound=spider.lower_bound)
 
     def get_spider_domains(self):
         return self.all_domains

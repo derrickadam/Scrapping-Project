@@ -17,7 +17,6 @@ class TrudencePipeline(object):
             self.counts[domain] = {i: 0 for i in spider.keywords}
             self.counts[domain]["sub_domains"] = 0
         content = item["content"].lower()
-        content = re.sub('[^0-9a-zA-Z]+', ' ', content)  # keep only alphanumeric
         for i in spider.keywords:
             if len(i.split()) == 1:
                 self.counts[domain][i] += content.split().count(i)

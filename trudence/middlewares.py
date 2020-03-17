@@ -6,10 +6,9 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import random
 
+from scrapy import signals
 from scrapy.http import HtmlResponse
 from scrapy.utils.python import to_bytes
-from selenium import webdriver
-from scrapy import signals
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -31,11 +30,19 @@ class SeleniumMiddleware(object):
         return middleware
 
     def process_request(self, request, spider):
-        self.driver = open_driver(random.choice(spider.proxy_pool))
+        proxy = ""
+        if spider.use_proxy:
+            proxy = random.choice(spider.proxy_pool)
+            spider.logger.warning(f"New proxy {proxy} for {request.url}")
+        self.driver = open_driver(proxy, spider.use_proxy)
         self.driver.get(request.url)
 
         body = to_bytes(self.driver.page_source)  # body must be of type bytes
         response = HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)
+        for i in spider.bad_texts:
+            if i in response.text or len(self.driver.page_source) < 10:
+                spider.logger.warning(f"Wrong content for {request.url}")
+                return None
         self.driver.close()
         return response
 
@@ -46,7 +53,7 @@ class SeleniumMiddleware(object):
         pass
 
 
-def open_driver(proxy):
+def open_driver(proxy, use_proxy):
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
@@ -54,5 +61,8 @@ def open_driver(proxy):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument('--proxy-server=%s' % proxy)
-    return webdriver.Chrome(chrome_options=chrome_options)
+    if use_proxy:
+        chrome_options.add_argument('--proxy-server=%s' % proxy)
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.set_page_load_timeout(5)
+    return driver

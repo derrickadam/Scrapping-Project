@@ -11,8 +11,9 @@ class SpiderMonitor:
         self.project = client.get_project(project_id)
         self.batches_sizes = batches_sizes
 
-    def run_next_batch(self, spider_name, upper_bound, is_master=False):
-        self.project.jobs.run(spider_name, job_args={'lower_bound': upper_bound, "is_master": False})
+    def run_next_batch(self, spider_name, upper_bound, is_master=False, lower_bound=0):
+        self.project.jobs.run(spider_name,
+                              job_args={'lower_bound': upper_bound, "is_master": False, "parent": lower_bound})
 
     def jobs_summary(self):
         pending, running = self.project.jobs.summary("pending"), self.project.jobs.summary("running")

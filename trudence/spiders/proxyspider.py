@@ -21,6 +21,9 @@ class ProxySpider(GenericSpider):
                 res.append(domain)
         return res
 
+    def close(spider, reason):
+        pass
+
 
 def get_proxies():
     r = requests.get("https://github.com/fate0/proxylist/blob/master/proxy.list")
