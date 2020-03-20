@@ -11,6 +11,9 @@ from scrapy.http import HtmlResponse
 from scrapy.utils.python import to_bytes
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class CustomProxyMiddleware(object):
@@ -30,12 +33,13 @@ class SeleniumMiddleware(object):
         return middleware
 
     def process_request(self, request, spider):
-        proxy = ""
-        if spider.use_proxy:
-            proxy = random.choice(spider.proxy_pool)
-            spider.logger.warning(f"New proxy {proxy} for {request.url}")
-        self.driver = open_driver(proxy, spider.use_proxy)
         self.driver.get(request.url)
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "body a::attr(href)"))
+            )
+        except:
+            pass
 
         body = to_bytes(self.driver.page_source)  # body must be of type bytes
         response = HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)
@@ -43,17 +47,16 @@ class SeleniumMiddleware(object):
             if i in response.text or len(self.driver.page_source) < 10:
                 spider.logger.warning(f"Wrong content for {request.url}")
                 return None
-        self.driver.close()
         return response
 
     def spider_opened(self, spider):
-        pass
+        self.driver = open_driver()
 
     def spider_closed(self, spider):
-        pass
+        self.driver.close()
 
 
-def open_driver(proxy, use_proxy):
+def open_driver():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
@@ -61,8 +64,6 @@ def open_driver(proxy, use_proxy):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-infobars")
-    if use_proxy:
-        chrome_options.add_argument('--proxy-server=%s' % proxy)
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="//usr/local/bin/chromedriver")
     driver.set_page_load_timeout(5)
     return driver
